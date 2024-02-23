@@ -10,7 +10,8 @@ interface WebServices {
 
     @GET("v2/top-headlines/sources")
     fun getSources(
-      @Query("apiKey") apiKeys:String
+      @Query("apiKey") apiKeys:String,
+      @Query("category") category:String
     ):Call<SourcesResponse>
 
 

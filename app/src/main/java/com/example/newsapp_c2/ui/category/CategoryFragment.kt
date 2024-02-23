@@ -40,6 +40,21 @@ class CategoryFragment :Fragment(){
         recyclerView = requireView().findViewById(R.id.recycler_view_category)
 
         recyclerView.adapter = adapter
+
+
+
+        adapter.onItemClickListner = object :CategoriesAdapter.OnItemClickListner{
+            override fun onItemClick(category: Category, position: Int) {
+                // do anything
+                // push NewsFragment
+                onCategoryClickLisytner?.onCategoryClick(category,position)
+            }
+        }
+    }
+
+    var onCategoryClickLisytner:OnCategoryClickLisytner?=null
+    interface OnCategoryClickLisytner{
+        fun onCategoryClick(category: Category , pos:Int)
     }
 
 }

@@ -42,6 +42,17 @@ class CategoriesAdapter (val categoryList:List<Category>) : RecyclerView.Adapter
         holder.materialCard.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.context,
             item.backgroundColor))
 
+        onItemClickListner?.let {
+            holder.itemView.setOnClickListener {
+                onItemClickListner?.onItemClick(item,position)
+            }
+        }
+
+    }
+
+    var onItemClickListner:OnItemClickListner?=null
+    interface OnItemClickListner {
+        fun onItemClick(category: Category , position: Int)
     }
 
     override fun getItemCount(): Int {
