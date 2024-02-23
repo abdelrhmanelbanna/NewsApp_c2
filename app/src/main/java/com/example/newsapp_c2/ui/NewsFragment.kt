@@ -1,13 +1,19 @@
-package com.example.newsapp_c2
+package com.example.newsapp_c2.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.example.newsapp_c2.Constants
+import com.example.newsapp_c2.NewsAdapter
+import com.example.newsapp_c2.R
 import com.example.newsapp_c2.api.ApiManager
+import com.example.newsapp_c2.model.Category
 import com.example.newsapp_c2.model.NewsResponse
 import com.example.newsapp_c2.model.SourcesItem
 import com.example.newsapp_c2.model.SourcesResponse
@@ -16,17 +22,23 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainActivity : AppCompatActivity() {
+class NewsFragment(val category: Category) : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_news,container,false)
+    }
 
-    lateinit var tabLayout:TabLayout
-    lateinit var progressBar:ProgressBar
+    lateinit var tabLayout: TabLayout
+    lateinit var progressBar: ProgressBar
     lateinit var recyclerView: RecyclerView
-    lateinit var button: Button
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-         initView()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initView()
 
         getSources()
 
@@ -34,9 +46,9 @@ class MainActivity : AppCompatActivity() {
 
     val adapter = NewsAdapter(null)
     fun initView(){
-        tabLayout = findViewById(R.id.tab_layout)
-        progressBar = findViewById(R.id.progress_bar)
-        recyclerView = findViewById(R.id.recycler_view)
+        tabLayout = requireView().findViewById(R.id.tab_layout)
+        progressBar = requireView().findViewById(R.id.progress_bar)
+        recyclerView = requireView().findViewById(R.id.recycler_view)
 
         recyclerView.adapter =adapter
     }
@@ -44,8 +56,8 @@ class MainActivity : AppCompatActivity() {
     private fun getSources() {
         progressBar.isVisible = true
 
-        ApiManager.getApi().getSources(Constants.ApiKey,"")
-            .enqueue(object :Callback<SourcesResponse>{
+        ApiManager.getApi().getSources(Constants.ApiKey,category.id)
+            .enqueue(object : Callback<SourcesResponse> {
                 override fun onFailure(call: Call<SourcesResponse>, t: Throwable) {
                     progressBar.isVisible = false
                     Log.e("error",t.localizedMessage)
@@ -86,7 +98,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab?) {
-                   Log.e("tab",tab?.text.toString())
+                    Log.e("tab",tab?.text.toString())
                 }
 
             })
@@ -100,7 +112,7 @@ class MainActivity : AppCompatActivity() {
 
         progressBar.isVisible = true
         ApiManager.getApi().getNews(Constants.ApiKey,source.id?:"")
-            .enqueue(object :Callback<NewsResponse>{
+            .enqueue(object : Callback<NewsResponse> {
 
                 override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
                     progressBar.isVisible = false

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.example.newsapp_c2.R
+import com.example.newsapp_c2.model.Category
 import com.example.newsapp_c2.ui.category.CategoryFragment
 import com.example.newsapp_c2.ui.setting.SettingFragment
 
@@ -17,6 +18,8 @@ class HomeActivity : AppCompatActivity() {
 
     lateinit var categoryTv : TextView
     lateinit var settingTv:TextView
+
+    val categoryFragment = CategoryFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,15 +50,26 @@ class HomeActivity : AppCompatActivity() {
             drawerLayout.close()
         }
 
-        pushFragment(CategoryFragment())
+        pushFragment(categoryFragment)
+
+        categoryFragment.onCategoryClickLisytner = object : CategoryFragment.OnCategoryClickLisytner{
+            override fun onCategoryClick(category: Category, pos: Int) {
+                pushFragment(NewsFragment(category),true)
+            }
+        }
 
     }
 
-    fun pushFragment(fragment:Fragment){
-        supportFragmentManager
+    fun pushFragment(fragment:Fragment,addToBackStack:Boolean=false){
+      val push =  supportFragmentManager
             .beginTransaction()
             .replace(R.id.fragment_container,fragment)
-            .commit()
+
+            if (addToBackStack){
+             push.addToBackStack("name")
+            }
+
+            push.commit()
 
     }
 
