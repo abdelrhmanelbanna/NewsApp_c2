@@ -3,6 +3,7 @@ package com.example.newsapp_c2
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -20,8 +21,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var tabLayout:TabLayout
     lateinit var progressBar:ProgressBar
     lateinit var recyclerView: RecyclerView
-
-
+    lateinit var button: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
