@@ -103,9 +103,7 @@ class NewsFragment(val category: Category) : Fragment() {
 
             })
         }
-
         tabLayout.getTabAt(0)?.select()
-
     }
 
     private fun getNewsBySources(source: SourcesItem) {
