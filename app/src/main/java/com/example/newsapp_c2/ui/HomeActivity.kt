@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.newsapp_c2.R
 import com.example.newsapp_c2.model.Category
 import com.example.newsapp_c2.ui.category.CategoryFragment
+import com.example.newsapp_c2.ui.news.NewsFragment
 import com.example.newsapp_c2.ui.setting.SettingFragment
 
 class HomeActivity : AppCompatActivity() {
